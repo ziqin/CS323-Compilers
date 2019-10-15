@@ -23,7 +23,8 @@ v6          ({v6section}:){7}{v6section}
     indicator = 0;
     return 0;
 }
-.* {}
+\n {}
+. {}
 %%
 char *validIPAddress(char *IP){
     YY_BUFFER_STATE buf;
