@@ -5,7 +5,7 @@
 
 char *convert(char *expr){
     char opstack[STACK_LEN];
-    char stack[STACK_LEN];
+    char stack[STACK_LEN];  // probably not a stack
     int optop, top;
     char *c, *ret;
 
@@ -14,25 +14,31 @@ char *convert(char *expr){
     optop = top = 0;
     c = expr;
 
-    while(*c != '\0'){
-        if((*c >= '0') && (*c <= '9')){
-
-        }
-        else if((*c == '+') || (*c == '-')){
-
-        }
-        else{
+    while (*c != '\0') {
+        if ((*c >= '0') && (*c <= '9')) {
+            stack[top++] = *c;
+        } else if ((*c == '+') || (*c == '-')){
+            while (optop > 0) {
+                stack[top++] = opstack[--optop];
+            }
+            opstack[optop++] = *c;
+        } else{
             // lexical errors
+            fprintf(stderr, "lexical error!\n");
         }
         c++;
     }
+    while (optop > 0) {
+        stack[top++] = opstack[--optop];
+    }
+    stack[top] = '\0';
 
     ret = (char*)malloc(strlen(stack)+1);
-    sprintf(ret, "%s", stack);
+    strcpy(ret, stack);
     return ret;
 }
 
-int main(){
+int main() {
     puts( convert("3-7+4-5") );
     return 0;
 }
